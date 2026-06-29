@@ -1,0 +1,24 @@
+{
+  "name": "agrik2k-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AgriK2K Cloudflare Worker API gateway (D1 + Workers AI + R2)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 execute rivendb --local --file=./schema.sql",
+    "db:init:remote": "wrangler d1 execute rivendb --remote --file=./schema.sql",
+    "db:seed": "wrangler d1 execute rivendb --local --file=./seed.sql",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.6",
+    "wrangler": "^4.105.0"
+  }
+}

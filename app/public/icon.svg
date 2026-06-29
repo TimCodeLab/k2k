@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="96" fill="#2e7d32"/>
+  <g transform="translate(256 270)" fill="none" stroke="#ffffff" stroke-width="20" stroke-linecap="round">
+    <path d="M0 150 V-30"/>
+    <path d="M0 10 C -70 -10 -90 -80 -80 -140 C -10 -120 10 -50 0 10 Z" fill="#a5d6a7" stroke="#ffffff"/>
+    <path d="M0 -30 C 70 -50 90 -120 80 -180 C 10 -160 -10 -90 0 -30 Z" fill="#c8e6c9" stroke="#ffffff"/>
+    <path d="M0 60 C -70 40 -90 -30 -80 -90 C -10 -70 10 0 0 60 Z" fill="#81c784" stroke="#ffffff"/>
+  </g>
+  <text x="256" y="468" text-anchor="middle" font-family="sans-serif" font-size="64" font-weight="700" fill="#ffffff">K2K</text>
+</svg>

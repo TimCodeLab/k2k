@@ -1,0 +1,29 @@
+name = "agrik2k-server"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare D1 (native serverless SQLite) — "rivendb"
+[[d1_databases]]
+binding = "DB"
+database_name = "rivendb"
+# Replace with your real database_id after `wrangler d1 create rivendb`.
+# A placeholder is fine for `wrangler dev --local`.
+database_id = "b983317f-333d-4120-8e10-1add217c4410"
+
+# Workers AI binding for the Crop Doctor advisor.
+# Uncomment for production / `wrangler login`. When disabled, the Worker
+# falls back to a built-in Khmer agronomy heuristic so local dev needs no auth.
+# [ai]
+# binding = "AI"
+
+# R2 bucket for compressed crop & invoice images
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "agrik2k-media"
+
+[vars]
+ENVIRONMENT = "development"
+# Dev-only secret for signing session JWTs. In production set a strong value via
+# `wrangler secret put JWT_SECRET` instead of committing it here.
+JWT_SECRET = "agrik2k-dev-secret-change-me"

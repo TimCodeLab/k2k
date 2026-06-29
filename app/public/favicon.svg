@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#2e7d32"/>
+  <!-- Wheat sheaf — bold so it stays legible at 16px -->
+  <g stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" fill="none">
+    <path d="M32 54 V22"/>
+    <path d="M32 30 C24 28 21 22 22 16 C30 18 33 24 32 30 Z" fill="#a5d6a7"/>
+    <path d="M32 22 C40 20 43 14 42 8 C34 10 31 16 32 22 Z" fill="#c8e6c9"/>
+    <path d="M32 40 C24 38 21 32 22 26 C30 28 33 34 32 40 Z" fill="#81c784"/>
+    <path d="M32 40 C40 38 43 32 42 26 C34 28 31 34 32 40 Z" fill="#c8e6c9"/>
+  </g>
+</svg>
