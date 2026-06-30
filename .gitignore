@@ -9,4 +9,4 @@ dist/
 # Claude Code: share project config (skills/agents/hooks/settings.json),
 # but keep personal/local overrides out of version control.
 .claude/
-CLAUDE.md
+app/android

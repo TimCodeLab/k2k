@@ -51,15 +51,16 @@ auth.post('/api/auth/verify-otp', async (c) => {
 
     let user: any = await c.env.DB.prepare('SELECT * FROM users WHERE phone = ?').bind(phone).first();
     if (!user) {
-      // Registration path — profile fields required.
-      if (!name || !role || !province || !district) return c.json({ error: 'profile_required' }, 400);
-      if (!['farmer', 'buyer', 'logistics'].includes(role)) return c.json({ error: 'invalid_role' }, 400);
-      if (!PROVINCES.includes(province)) return c.json({ error: 'invalid_province' }, 400);
+      // Registration path — only name is required; use sensible defaults for role/province.
+      if (!name) return c.json({ error: 'name_required' }, 400);
+      const finalRole = role && ['farmer', 'buyer', 'logistics'].includes(role) ? role : 'buyer';
+      const finalProvince = province && PROVINCES.includes(province) ? province : 'Phnom Penh';
+      const finalDistrict = district?.trim() || '';
       const id = uid('u');
       await c.env.DB.prepare(
         `INSERT INTO users (id, name, role, phone, province, district, khqr_string)
          VALUES (?, ?, ?, ?, ?, ?, ?)`
-      ).bind(id, name, role, phone, province, district, khqr_string ?? null).run();
+      ).bind(id, name, finalRole, phone, finalProvince, finalDistrict, khqr_string ?? null).run();
       user = await c.env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(id).first();
     }
 

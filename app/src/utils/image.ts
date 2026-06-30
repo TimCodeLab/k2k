@@ -1,6 +1,9 @@
 // Feature 4: Low-Bandwidth Compression Engine.
 // Resize + re-encode an image on the client (HTML Canvas) BEFORE upload.
-export async function compressImage(file: File, maxDim = 1024, quality = 0.7): Promise<Blob> {
+export async function compressImage(file: File, maxDim?: number, quality = 0.7): Promise<Blob> {
+  // For web mobile applications, adapt the max dimension based on viewport width
+  const deviceMaxDim = maxDim ?? (typeof window !== 'undefined' && window.innerWidth < 768 ? 640 : 1024);
+  
   const dataUrl = await new Promise<string>((resolve, reject) => {
     const fr = new FileReader();
     fr.onload = () => resolve(fr.result as string);
@@ -16,8 +19,8 @@ export async function compressImage(file: File, maxDim = 1024, quality = 0.7): P
   });
 
   let { width, height } = img;
-  if (width > height && width > maxDim) { height = Math.round((height * maxDim) / width); width = maxDim; }
-  else if (height > maxDim) { width = Math.round((width * maxDim) / height); height = maxDim; }
+  if (width > height && width > deviceMaxDim) { height = Math.round((height * deviceMaxDim) / width); width = deviceMaxDim; }
+  else if (height > deviceMaxDim) { width = Math.round((width * deviceMaxDim) / height); height = deviceMaxDim; }
 
   const canvas = document.createElement('canvas');
   canvas.width = width;

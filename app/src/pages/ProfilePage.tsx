@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import {
   IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButtons,
-  IonCard, IonCardContent, IonItem, IonLabel, IonInput, IonSelect, IonSelectOption,
+  IonCard, IonCardContent, IonItem, IonLabel, IonInput,
   IonButton, IonSpinner, IonChip, IonText, IonAvatar, useIonToast, IonList, IonNote,
 } from '@ionic/react';
 import { useTranslation } from 'react-i18next';
 import { api } from '../services/api';
 import { useSession } from '../context/SessionContext';
-import { useMeta } from '../hooks/useMeta';
 import { formatKHR } from '../utils';
-import type { Order, Role } from '../types';
+import type { Order } from '../types';
 import LanguageToggle from '../components/LanguageToggle';
 
 const ProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const { user, setSession, clear } = useSession();
-  const { provinces } = useMeta();
   const [present] = useIonToast();
 
   // Auth flow state
@@ -28,10 +26,6 @@ const ProfilePage: React.FC = () => {
 
   // Profile fields (only used when registering a brand-new phone)
   const [name, setName] = useState('');
-  const [role, setRole] = useState<Role>('farmer');
-  const [province, setProvince] = useState('Battambang');
-  const [district, setDistrict] = useState('');
-  const [khqr, setKhqr] = useState('');
 
   const [orders, setOrders] = useState<Order[]>([]);
 
@@ -53,12 +47,12 @@ const ProfilePage: React.FC = () => {
 
   const verify = async () => {
     if (!/^\d{6}$/.test(code)) return present({ message: t('auth.enterCode'), duration: 2000, color: 'warning' });
-    if (!isRegistered && (!name || !district)) return present({ message: t('error.required'), duration: 2000, color: 'warning' });
+    if (!isRegistered && !name) return present({ message: t('error.required'), duration: 2000, color: 'warning' });
     setBusy(true);
     try {
       const r = await api.verifyOtp({
         phone, code,
-        ...(isRegistered ? {} : { name, role, province, district, khqr_string: role === 'farmer' ? khqr : undefined }),
+        ...(isRegistered ? {} : { name }),
       });
       setSession(r.user, r.token);
       present({ message: t('common.success'), duration: 1600, color: 'success' });
@@ -152,30 +146,6 @@ const ProfilePage: React.FC = () => {
                         <IonLabel position="stacked">{t('profile.name')}</IonLabel>
                         <IonInput value={name} onIonInput={(e) => setName(e.detail.value ?? '')} />
                       </IonItem>
-                      <IonItem>
-                        <IonLabel position="stacked">{t('profile.role')}</IonLabel>
-                        <IonSelect value={role} interface="action-sheet" onIonChange={(e) => setRole(e.detail.value)}>
-                          <IonSelectOption value="farmer">{t('role.farmer')}</IonSelectOption>
-                          <IonSelectOption value="buyer">{t('role.buyer')}</IonSelectOption>
-                          <IonSelectOption value="logistics">{t('role.logistics')}</IonSelectOption>
-                        </IonSelect>
-                      </IonItem>
-                      <IonItem>
-                        <IonLabel position="stacked">{t('profile.province')}</IonLabel>
-                        <IonSelect value={province} interface="action-sheet" onIonChange={(e) => setProvince(e.detail.value)}>
-                          {provinces.map((p) => <IonSelectOption key={p} value={p}>{p}</IonSelectOption>)}
-                        </IonSelect>
-                      </IonItem>
-                      <IonItem>
-                        <IonLabel position="stacked">{t('profile.district')}</IonLabel>
-                        <IonInput value={district} onIonInput={(e) => setDistrict(e.detail.value ?? '')} />
-                      </IonItem>
-                      {role === 'farmer' && (
-                        <IonItem>
-                          <IonLabel position="stacked">{t('profile.khqr')}</IonLabel>
-                          <IonInput value={khqr} placeholder="00020101..." onIonInput={(e) => setKhqr(e.detail.value ?? '')} />
-                        </IonItem>
-                      )}
                     </>
                   )}
 
