@@ -10,3 +10,8 @@ dist/
 # but keep personal/local overrides out of version control.
 .claude/
 app/android
+
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
