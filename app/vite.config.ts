@@ -7,8 +7,8 @@ export default defineConfig({
     port: 5173,
     proxy: {
       // Forward API calls to the Cloudflare Worker during local dev.
-      '/api': 'http://localhost:8787',
-      '/media': 'http://localhost:8787',
+      '/api': 'http://127.0.0.1:8788',
+      '/media': 'http://127.0.0.1:8788',
     },
   },
 });
